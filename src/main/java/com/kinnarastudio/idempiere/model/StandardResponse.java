@@ -5,16 +5,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class StandardResponse extends WebServiceResponse {
+    public final static String JSON_KEY = "StandardResponse";
     private final Integer recordId;
     private final boolean isError;
-
     private final String errorMessage;
+    private final WindowTabData windowTabData;
 
-    public StandardResponse(JSONObject responsePayload) throws WebServiceResponseException {
-        super(responsePayload);
+    public StandardResponse(JSONObject jsonStandardResponse) throws WebServiceResponseException {
+        super(jsonStandardResponse);
 
         try {
-            final JSONObject jsonStandardResponse = responsePayload.getJSONObject("StandardResponse");
             isError = jsonStandardResponse.optBoolean("@IsError", false);
 
             if(isError) {
@@ -24,6 +24,13 @@ public class StandardResponse extends WebServiceResponse {
             }
 
             recordId = jsonStandardResponse.optInt("@RecordID");
+
+            if(jsonStandardResponse.has(WindowTabData.JSON_KEY)) {
+                final JSONObject jsonWindowTabData = jsonStandardResponse.getJSONObject(WindowTabData.JSON_KEY);
+                windowTabData = new WindowTabData(jsonWindowTabData);
+            } else {
+                windowTabData = null;
+            }
         } catch (JSONException e) {
             throw new WebServiceResponseException(e);
         }

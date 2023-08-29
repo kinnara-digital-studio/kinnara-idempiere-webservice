@@ -15,4 +15,6 @@ public abstract class ModelRequest {
         json.put(LoginRequest.JSON_KEY, loginRequest.toJson());
         return json;
     }
+
+    public abstract String getJsonKey();
 }

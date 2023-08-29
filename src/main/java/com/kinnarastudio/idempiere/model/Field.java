@@ -26,8 +26,8 @@ public final class Field {
                 .orElseGet(Stream::empty)
                 .filter(e -> {
                     final String column = e.getColumn();
-                    final String value = e.getValue();
-                    return column != null && !column.isEmpty() && value != null && !value.isEmpty();
+                    final Object value = e.getValue();
+                    return column != null && !column.isEmpty() && value != null && !String.valueOf(value).isEmpty();
                 })
                 .map(FieldEntry::toJson)
                 .collect(JSONCollectors.toJSONArray());

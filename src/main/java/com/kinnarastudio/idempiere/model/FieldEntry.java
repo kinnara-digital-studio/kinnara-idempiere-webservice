@@ -4,9 +4,9 @@ import org.json.JSONObject;
 
 public final class FieldEntry {
     private final String column;
-    private final String value;
+    private final Object value;
 
-    public FieldEntry(String column, String value) {
+    public FieldEntry(String column, Object value) {
         this.column = column;
         this.value = value;
     }
@@ -15,7 +15,7 @@ public final class FieldEntry {
         return column;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return value;
     }
 

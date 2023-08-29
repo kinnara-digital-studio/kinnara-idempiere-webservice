@@ -1,9 +1,9 @@
 import com.kinnarastudio.idempiere.exception.WebServiceBuilderException;
 import com.kinnarastudio.idempiere.exception.WebServiceRequestException;
 import com.kinnarastudio.idempiere.exception.WebServiceResponseException;
-import com.kinnarastudio.idempiere.model.WebServiceResponse;
-import com.kinnarastudio.idempiere.type.ModelOrientedWebServiceMethod;
-import com.kinnarastudio.idempiere.model.LoginRequest;
+import com.kinnarastudio.idempiere.model.*;
+import com.kinnarastudio.idempiere.type.ServiceMethod;
+import com.kinnarastudio.idempiere.webservice.CompositeInterfaceWebService;
 import com.kinnarastudio.idempiere.webservice.ModelOrientedWebService;
 import org.junit.Test;
 
@@ -13,10 +13,10 @@ public class UnitTest {
         try {
             ModelOrientedWebService webService = new ModelOrientedWebService.Builder()
                     .setHost("localhost")
-                    .setLoginRequest(new LoginRequest("GardenAdmin", "GardenAdmin", "en_US", 11, 102, 11,103))
+                    .setLoginRequest(new LoginRequest("GardenAdmin", "GardenAdmin", "en_US", 11, 102, 11, 103))
                     .setServiceType("ReadBPartner")
                     .setRecordId(1000004)
-                    .setMethod(ModelOrientedWebServiceMethod.READ_DATA)
+                    .setMethod(ServiceMethod.READ_DATA)
                     .setTable("M_InOut")
                     .ignoreSslCertificateError()
                     .build();
@@ -33,13 +33,49 @@ public class UnitTest {
         try {
             ModelOrientedWebService webService = new ModelOrientedWebService.Builder()
                     .setBaseUrl("https://localhost:8443")
-                    .setLoginRequest(new LoginRequest("GardenAdmin", "GardenAdmin", "en_US", 11, 102, 11,103))
+                    .setLoginRequest(new LoginRequest("GardenAdmin", "GardenAdmin", "en_US", 11, 102, 11, 103))
                     .setServiceType("QueryUom")
-                    .setMethod(ModelOrientedWebServiceMethod.QUERY_DATA)
+                    .setMethod(ServiceMethod.QUERY_DATA)
                     .ignoreSslCertificateError()
                     .setLimit(2)
                     .build();
 
+            WebServiceResponse response = webService.execute();
+            System.out.println(response.toString());
+        } catch (WebServiceBuilderException | WebServiceRequestException | WebServiceResponseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Test
+    public void compositeInterface() {
+        CompositeInterfaceWebService.Builder builder = new CompositeInterfaceWebService.Builder();
+        builder.setHost("localhost")
+                .ignoreSslCertificateError()
+                .setLoginRequest(new LoginRequest("GardenAdmin", "GardenAdmin", "en_US", 11, 102, 11, 103))
+                .setServiceType("CompositeShipment");
+
+        DataRow shipmentDataRow = new DataRow(new FieldEntry[]{
+                new FieldEntry("C_DocType_ID", 120),
+                new FieldEntry("C_BPartner_ID", 1000003),
+                new FieldEntry("C_BPartner_Location_ID", 50004),
+                new FieldEntry("M_Warehouse_ID", 103),
+                new FieldEntry("AD_User_ID", 101),
+                new FieldEntry("Description", "Composite")
+        });
+        builder.addWebServiceOperation(new Operation(ServiceMethod.CREATE_DATA, new Model("CreateShipment", "M_InOut", shipmentDataRow)));
+
+        DataRow shipmentLineDataRow = new DataRow(new FieldEntry[]{
+                new FieldEntry("M_InOut_ID", "@M_InOut.M_InOut_ID"),
+                new FieldEntry("M_Product_ID", 138),
+                new FieldEntry("QtyEntered", 97),
+                new FieldEntry("C_UOM_ID", 100)
+        });
+        builder.addWebServiceOperation(new Operation(ServiceMethod.CREATE_DATA, new Model("CreateShipmentLine", "M_InOutLine", shipmentLineDataRow)));
+
+        try {
+            CompositeInterfaceWebService webService = builder.build();
             WebServiceResponse response = webService.execute();
             System.out.println(response.toString());
         } catch (WebServiceBuilderException | WebServiceRequestException | WebServiceResponseException e) {

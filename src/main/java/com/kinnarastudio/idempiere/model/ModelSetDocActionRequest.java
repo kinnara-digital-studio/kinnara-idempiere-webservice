@@ -16,4 +16,9 @@ public class ModelSetDocActionRequest extends ModelRequest {
         json.put(ModelSetDocAction.JSON_KEY, modelSetDocAction.toJson());
         return json;
     }
+
+    @Override
+    public String getJsonKey() {
+        return null;
+    }
 }

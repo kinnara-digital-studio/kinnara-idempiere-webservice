@@ -7,14 +7,15 @@ import org.json.JSONObject;
 
 import java.util.Optional;
 
-public class WindowTabDataResponse extends WebServiceResponse{
+public class WindowTabData extends WebServiceResponse{
+    public final static String JSON_KEY = "WindowTabData";
     private final int numberOfRows;
     private final int totalRows;
     private final int startRow;
     private final int rowCount;
     private final boolean isSucceed;
     private final DataSet dataSet;
-    public WindowTabDataResponse(JSONObject responsePayload) throws WebServiceResponseException {
+    public WindowTabData(JSONObject responsePayload) throws WebServiceResponseException {
         super(responsePayload);
 
         try {

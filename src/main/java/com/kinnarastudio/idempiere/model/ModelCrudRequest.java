@@ -17,4 +17,9 @@ public class ModelCrudRequest extends ModelRequest {
         json.put(ModelCrud.JSON_KEY, modelCrud.toJson());
         return json;
     }
+
+    @Override
+    public String getJsonKey() {
+        return ModelCrud.JSON_KEY;
+    }
 }

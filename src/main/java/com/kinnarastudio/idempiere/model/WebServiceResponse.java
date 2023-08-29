@@ -33,10 +33,12 @@ public abstract class WebServiceResponse {
         public WebServiceResponse build() throws WebServiceResponseException {
             if(responsePayload == null) throw new WebServiceResponseException("Response payload not found");
 
-            if(responsePayload.has("WindowTabData")) {
-                return new WindowTabDataResponse(responsePayload);
-            } else if(responsePayload.has("StandardResponse")) {
+            if(responsePayload.has(WindowTabData.JSON_KEY)) {
+                return new WindowTabData(responsePayload);
+            } else if(responsePayload.has(StandardResponse.JSON_KEY)) {
                 return new StandardResponse(responsePayload);
+            } else if(responsePayload.has(CompositeResponses.JSON_KEY)) {
+                return new CompositeResponses(responsePayload);
             } else {
                 throw new WebServiceResponseException("Unrecognized response payload");
             }
