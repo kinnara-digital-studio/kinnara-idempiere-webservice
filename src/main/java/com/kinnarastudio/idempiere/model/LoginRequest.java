@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import java.util.Optional;
 
-public class LoginRequest {
+public final class LoginRequest {
     public final static String JSON_KEY = "ADLoginRequest";
 
     private final String username;

@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import java.util.Optional;
 
-public class ModelCrud {
+public final class ModelCrud {
     public final static String JSON_KEY = "ModelCRUD";
 
     private final String serviceType;
@@ -28,6 +28,7 @@ public class ModelCrud {
         final JSONObject json = new JSONObject();
         json.put("serviceType", serviceType);
 
+        Optional.ofNullable(tableName).ifPresent(s -> json.put("TableName", s));
         Optional.ofNullable(recordId).ifPresent(s -> json.put("RecordID", s));
         Optional.ofNullable(recordIdVariable).ifPresent(s -> json.put("recordIDVariable", s));
         Optional.ofNullable(offset).ifPresent(i -> json.put("Offset", i));

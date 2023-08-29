@@ -11,6 +11,14 @@ public final class FieldEntry {
         this.value = value;
     }
 
+    public String getColumn() {
+        return column;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
     public JSONObject toJson() {
         final JSONObject json = new JSONObject();
         json.put("@column", column);

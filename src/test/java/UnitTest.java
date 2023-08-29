@@ -7,8 +7,6 @@ import com.kinnarastudio.idempiere.model.LoginRequest;
 import com.kinnarastudio.idempiere.webservice.ModelOrientedWebService;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class UnitTest {
     @Test
     public void readData() {
@@ -39,6 +37,7 @@ public class UnitTest {
                     .setServiceType("QueryUom")
                     .setMethod(ModelOrientedWebServiceMethod.QUERY_DATA)
                     .ignoreSslCertificateError()
+                    .setLimit(2)
                     .build();
 
             WebServiceResponse response = webService.execute();

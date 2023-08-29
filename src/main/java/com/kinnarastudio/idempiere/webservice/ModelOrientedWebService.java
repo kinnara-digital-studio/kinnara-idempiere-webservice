@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class ModelOrientedWebService {
     private final String baseUrl;
     private final ModelOrientedWebServiceMethod method;
-    private final ModelCrudRequest request;
+    private final ModelRequest request;
     private final boolean ignoreSslCertificateError;
 
     private ModelOrientedWebService(Builder builder) {
@@ -75,7 +75,7 @@ public class ModelOrientedWebService {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()))) {
             final JSONObject jsonResponseBody = new JSONObject(br.lines().collect(Collectors.joining()));
-            return new WebServiceResponse(jsonResponseBody);
+            return new WebServiceResponse.Builder().setResponsePayload(jsonResponseBody).build();
         } catch (IOException e) {
             throw new WebServiceResponseException(e);
         }
@@ -108,7 +108,7 @@ public class ModelOrientedWebService {
      *
      */
     public static class Builder {
-        private ModelCrudRequest request;
+        private ModelRequest request;
 
         private String baseUrl;
 
@@ -121,9 +121,10 @@ public class ModelOrientedWebService {
 
         private Integer recordId;
 
-        private DataRow dataRow;
+        private Integer offset;
 
-        private JSONObject requestPayload;
+        private Integer limit;
+        private DataRow dataRow;
 
         private boolean ignoreSslCertificateError = false;
 
@@ -162,13 +163,28 @@ public class ModelOrientedWebService {
             return this;
         }
 
+        public Builder setOffset(Integer offset) {
+            this.offset = offset;
+            return this;
+        }
+
+        public Builder setLimit(Integer limit) {
+            this.limit = limit;
+            return this;
+        }
+
+        public Builder setDataRow(DataRow dataRow) {
+            this.dataRow = dataRow;
+            return this;
+        }
+
         public Builder ignoreSslCertificateError() {
             this.ignoreSslCertificateError = true;
             return this;
         }
 
         public ModelOrientedWebService build() throws WebServiceBuilderException {
-            if(baseUrl == null || baseUrl.isEmpty()) throw new WebServiceBuilderException("Base Url is not provided");
+            if (baseUrl == null || baseUrl.isEmpty()) throw new WebServiceBuilderException("Base Url is not provided");
 
             if (serviceType == null) throw new WebServiceBuilderException("No serviceType is defined");
 
@@ -176,9 +192,26 @@ public class ModelOrientedWebService {
 
             if (loginRequest == null) throw new WebServiceBuilderException("Login information is not provided");
 
-            final ModelCrud modelCrud = new ModelCrud(serviceType);
+            switch (method) {
+                case READ_DATA:
+                case QUERY_DATA:
+                case GET_LIST:
+                case CREATE_DATA:
+                case DELETE_DATA:
+                case UPDATE_DATA:
+                case CREATE_OR_UPDATE_DATA:
+                    final ModelCrud modelCrud = new ModelCrud(serviceType);
+                    Optional.ofNullable(dataRow).ifPresent(modelCrud::setDataRow);
+                    Optional.ofNullable(recordId).ifPresent(modelCrud::setRecordId);
+                    Optional.ofNullable(offset).ifPresent(modelCrud::setOffset);
+                    Optional.ofNullable(limit).ifPresent(modelCrud::setLimit);
 
-            request = new ModelCrudRequest(loginRequest, modelCrud);
+                    request = new ModelCrudRequest(loginRequest, modelCrud);
+                    break;
+                case SET_DOCUMENT_ACTION:
+                    request = new ModelSetDocActionRequest(loginRequest, new ModelSetDocAction(serviceType, recordId));
+                    break;
+            }
 
             return new ModelOrientedWebService(this);
         }
