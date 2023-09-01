@@ -2,11 +2,11 @@ package com.kinnarastudio.idempiere.model;
 
 import org.json.JSONObject;
 
-public abstract class ModelRequest {
+public abstract class WebServiceRequest {
 
     private final LoginRequest loginRequest;
 
-    protected ModelRequest(LoginRequest loginRequest) {
+    protected WebServiceRequest(LoginRequest loginRequest) {
         this.loginRequest = loginRequest;
     }
 
@@ -17,4 +17,5 @@ public abstract class ModelRequest {
     }
 
     public abstract String getJsonKey();
+
 }

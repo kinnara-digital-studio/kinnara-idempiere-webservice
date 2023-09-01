@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import javax.annotation.Nonnull;
 
-public class ModelCrudRequest extends ModelRequest {
+public class ModelCrudRequest extends WebServiceRequest {
     private final ModelCrud modelCrud;
 
     public ModelCrudRequest(@Nonnull LoginRequest loginRequest, @Nonnull ModelCrud modelCrud) {

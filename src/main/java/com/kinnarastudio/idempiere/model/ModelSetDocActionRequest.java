@@ -2,7 +2,7 @@ package com.kinnarastudio.idempiere.model;
 
 import org.json.JSONObject;
 
-public class ModelSetDocActionRequest extends ModelRequest {
+public class ModelSetDocActionRequest extends WebServiceRequest {
 
     private final ModelSetDocAction modelSetDocAction;
 

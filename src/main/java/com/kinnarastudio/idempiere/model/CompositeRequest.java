@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class CompositeRequest extends ModelRequest {
+public class CompositeRequest extends WebServiceRequest {
     public final static String JSON_KEY = "CompositeRequest";
 
     private final String serviceType;

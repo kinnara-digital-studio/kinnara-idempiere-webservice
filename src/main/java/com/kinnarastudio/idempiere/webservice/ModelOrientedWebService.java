@@ -4,6 +4,7 @@ import com.kinnarastudio.idempiere.exception.WebServiceBuilderException;
 import com.kinnarastudio.idempiere.exception.WebServiceRequestException;
 import com.kinnarastudio.idempiere.exception.WebServiceResponseException;
 import com.kinnarastudio.idempiere.model.*;
+import com.kinnarastudio.idempiere.service.WebServiceBuilder;
 import com.kinnarastudio.idempiere.type.ServiceMethod;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
 public class ModelOrientedWebService {
     private final String baseUrl;
     private final ServiceMethod method;
-    private final ModelRequest request;
+    private final WebServiceRequest request;
     private final boolean ignoreSslCertificateError;
 
     private ModelOrientedWebService(Builder builder) {
@@ -107,8 +108,8 @@ public class ModelOrientedWebService {
     /**
      *
      */
-    public static class Builder {
-        private ModelRequest request;
+    public static class Builder  {
+        private WebServiceRequest request;
 
         private String baseUrl;
 

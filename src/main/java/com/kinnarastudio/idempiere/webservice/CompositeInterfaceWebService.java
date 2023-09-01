@@ -48,7 +48,7 @@ public class CompositeInterfaceWebService {
     public WebServiceResponse execute() throws WebServiceRequestException, WebServiceResponseException {
         final String url = String.join("/", baseUrl, "ADInterface/services/rest/composite_service/composite_operation");
 
-        final JSONObject requestPayload = toJson();
+        final JSONObject requestPayload = getRequestPayload();
 
         final HttpPost request = new HttpPost(url);
         request.addHeader("Accept", "application/json");
@@ -106,7 +106,7 @@ public class CompositeInterfaceWebService {
         }
     }
 
-    public JSONObject toJson() {
+    public JSONObject getRequestPayload() {
         final JSONObject json = new JSONObject();
         json.put(CompositeRequest.JSON_KEY, compositeRequest.toJson());
         return json;
@@ -149,7 +149,7 @@ public class CompositeInterfaceWebService {
             return this;
         }
 
-        public Builder addWebServiceOperation(Operation webServiceOperation) {
+        public Builder addOperation(Operation webServiceOperation) {
             operations.add(webServiceOperation);
             return this;
         }
