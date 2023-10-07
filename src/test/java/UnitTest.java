@@ -68,7 +68,7 @@ public class UnitTest {
 
         DataRow orderLineDataRow = new DataRow(new FieldEntry[]{
                 new FieldEntry("C_Order_ID", "@C_Order.C_Order_ID"),
-                new FieldEntry("M_Product_ID", 50003),
+                new FieldEntry("M_Product_ID", 134),
                 new FieldEntry("QtyEntered", 10),
                 new FieldEntry("PriceEntered", 10000)
         });
@@ -87,7 +87,7 @@ public class UnitTest {
 
         DataRow shipmentLineDataRow = new DataRow(new FieldEntry[]{
                 new FieldEntry("M_InOut_ID", "@M_InOut.M_InOut_ID"),
-                new FieldEntry("M_Product_ID", 50003),
+                new FieldEntry("M_Product_ID", 134),
                 new FieldEntry("QtyEntered", 97),
                 new FieldEntry("C_UOM_ID", 100)
         });

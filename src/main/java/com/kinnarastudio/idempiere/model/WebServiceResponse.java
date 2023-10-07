@@ -30,15 +30,16 @@ public abstract class WebServiceResponse {
             this.responsePayload = responsePayload;
             return this;
         }
-        public WebServiceResponse build() throws WebServiceResponseException {
-            if(responsePayload == null) throw new WebServiceResponseException("Response payload not found");
 
-            if(responsePayload.has(WindowTabData.JSON_KEY)) {
-                return new WindowTabData(responsePayload);
-            } else if(responsePayload.has(StandardResponse.JSON_KEY)) {
-                return new StandardResponse(responsePayload);
-            } else if(responsePayload.has(CompositeResponses.JSON_KEY)) {
-                return new CompositeResponses(responsePayload);
+        public WebServiceResponse build() throws WebServiceResponseException {
+            if (responsePayload == null) throw new WebServiceResponseException("Response payload not found");
+
+            if (responsePayload.has(WindowTabData.JSON_KEY)) {
+                return new WindowTabData(responsePayload.getJSONObject(WindowTabData.JSON_KEY));
+            } else if (responsePayload.has(StandardResponse.JSON_KEY)) {
+                return new StandardResponse(responsePayload.getJSONObject(StandardResponse.JSON_KEY));
+            } else if (responsePayload.has(CompositeResponses.JSON_KEY)) {
+                return new CompositeResponses(responsePayload.getJSONObject(CompositeResponses.JSON_KEY));
             } else {
                 throw new WebServiceResponseException("Unrecognized response payload");
             }

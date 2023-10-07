@@ -15,12 +15,10 @@ public class WindowTabData extends WebServiceResponse{
     private final int rowCount;
     private final boolean isSucceed;
     private final DataSet dataSet;
-    public WindowTabData(JSONObject responsePayload) throws WebServiceResponseException {
-        super(responsePayload);
+    public WindowTabData(JSONObject jsonWindowTabData) throws WebServiceResponseException {
+        super(jsonWindowTabData);
 
         try {
-            final JSONObject jsonWindowTabData = responsePayload.getJSONObject("WindowTabData");
-
             numberOfRows = jsonWindowTabData.getInt("@NumRows");
             totalRows = jsonWindowTabData.getInt("@TotalRows");
             startRow = jsonWindowTabData.getInt("@StartRow");

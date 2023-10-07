@@ -19,12 +19,11 @@ public class CompositeResponses extends WebServiceResponse {
 
     private final String[] errorMessages;
 
-    protected CompositeResponses(JSONObject responsePayload) throws WebServiceResponseException {
-        super(responsePayload);
+    protected CompositeResponses(JSONObject jsonCompositeResponses) throws WebServiceResponseException {
+        super(jsonCompositeResponses);
 
         try {
-            final JSONObject jsonCompositeResponse = responsePayload
-                    .getJSONObject(JSON_KEY)
+            final JSONObject jsonCompositeResponse = jsonCompositeResponses
                     .getJSONObject("CompositeResponse");
 
             final Object objStandardResponses = jsonCompositeResponse

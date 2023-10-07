@@ -46,7 +46,7 @@ public class CompositeInterfaceWebService {
     }
 
     public WebServiceResponse execute() throws WebServiceRequestException, WebServiceResponseException {
-        final String url = String.join("/", baseUrl, "ADInterface/services/rest/composite_service/composite_operation");
+        final String url = String.join("/", baseUrl, "ADInterface", "services", "rest", "composite_service", "composite_operation");
 
         final JSONObject requestPayload = getRequestPayload();
 

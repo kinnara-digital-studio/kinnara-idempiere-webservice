@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 
 public class ModelCrudRequest extends WebServiceRequest {
+    public final static String JSON_KEY = "ModelCRUDRequest";
     private final ModelCrud modelCrud;
 
     public ModelCrudRequest(@Nonnull LoginRequest loginRequest, @Nonnull ModelCrud modelCrud) {
@@ -20,6 +21,6 @@ public class ModelCrudRequest extends WebServiceRequest {
 
     @Override
     public String getJsonKey() {
-        return ModelCrud.JSON_KEY;
+        return JSON_KEY;
     }
 }

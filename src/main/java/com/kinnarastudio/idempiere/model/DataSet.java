@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -36,7 +37,8 @@ public final class DataSet {
                 })
                 .map(j -> JSONStream.of(j, JSONArray::getJSONObject))
                 .orElseGet(Stream::empty)
-                .map(DataRow::new)
+                .map(Try.onFunction(DataRow::new))
+                .filter(Objects::nonNull)
                 .toArray(DataRow[]::new);
     }
 

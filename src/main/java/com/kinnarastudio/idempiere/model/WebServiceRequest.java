@@ -18,4 +18,9 @@ public abstract class WebServiceRequest {
 
     public abstract String getJsonKey();
 
+    public JSONObject getRequestPayload() {
+        final JSONObject jsonPayload = new JSONObject();
+        jsonPayload.put(getJsonKey(), toJson());
+        return jsonPayload;
+    }
 }

@@ -4,7 +4,6 @@ import com.kinnarastudio.idempiere.exception.WebServiceBuilderException;
 import com.kinnarastudio.idempiere.exception.WebServiceRequestException;
 import com.kinnarastudio.idempiere.exception.WebServiceResponseException;
 import com.kinnarastudio.idempiere.model.*;
-import com.kinnarastudio.idempiere.service.WebServiceBuilder;
 import com.kinnarastudio.idempiere.type.ServiceMethod;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -44,10 +43,9 @@ public class ModelOrientedWebService {
     }
 
     public WebServiceResponse execute() throws WebServiceRequestException, WebServiceResponseException {
-        final String url = String.join("/", baseUrl, "ADInterface/services/rest", method.getPort(), method.getMethod());
+        final String url = String.join("/", baseUrl, "ADInterface", "services", "rest", method.getPort(), method.getMethod());
 
-        final JSONObject requestPayload = new JSONObject();
-        requestPayload.put(method.getKeyRequest(), request.toJson());
+        final JSONObject requestPayload = request.getRequestPayload();
 
         final HttpPost request = new HttpPost(url);
         request.addHeader("Accept", "application/json");
@@ -82,6 +80,10 @@ public class ModelOrientedWebService {
         }
     }
 
+    public JSONObject getRequestPayload() {
+        return request.toJson();
+    }
+
     protected int getResponseStatus(@Nonnull HttpResponse response) throws WebServiceResponseException {
         return Optional.of(response)
                 .map(HttpResponse::getStatusLine)
@@ -108,7 +110,7 @@ public class ModelOrientedWebService {
     /**
      *
      */
-    public static class Builder  {
+    public static class Builder {
         private WebServiceRequest request;
 
         private String baseUrl;
@@ -202,20 +204,43 @@ public class ModelOrientedWebService {
                 case UPDATE_DATA:
                 case CREATE_OR_UPDATE_DATA:
                     final ModelCrud modelCrud = new ModelCrud(serviceType);
-                    Optional.ofNullable(dataRow).ifPresent(modelCrud::setDataRow);
-                    Optional.ofNullable(recordId).ifPresent(modelCrud::setRecordId);
-                    Optional.ofNullable(offset).ifPresent(modelCrud::setOffset);
-                    Optional.ofNullable(limit).ifPresent(modelCrud::setLimit);
+
+                    Optional.ofNullable(dataRow)
+                            .filter(dr -> Optional.of(dr)
+                                    .map(DataRow::getFieldEntries)
+                                    .map(fe -> fe.length)
+                                    .filter(i -> i > 0)
+                                    .isPresent())
+                            .ifPresent(modelCrud::setDataRow);
+
+                    Optional.ofNullable(table)
+                            .filter(s -> !s.isEmpty())
+                            .ifPresent(modelCrud::setTableName);
+
+                    Optional.ofNullable(recordId)
+                            .filter(i -> i > 0)
+                            .ifPresent(modelCrud::setRecordId);
+
+                    Optional.ofNullable(offset)
+                            .filter(i -> i > 0)
+                            .ifPresent(modelCrud::setOffset);
+
+                    Optional.ofNullable(limit)
+                            .filter(i -> i > 0)
+                            .ifPresent(modelCrud::setLimit);
 
                     request = new ModelCrudRequest(loginRequest, modelCrud);
                     break;
+
                 case SET_DOCUMENT_ACTION:
                     request = new ModelSetDocActionRequest(loginRequest, new ModelSetDocAction(serviceType, recordId));
                     break;
+
+                case RUN_PROCESS:
+                    throw new RuntimeException("No implementation yet");
             }
 
             return new ModelOrientedWebService(this);
         }
-
     }
 }

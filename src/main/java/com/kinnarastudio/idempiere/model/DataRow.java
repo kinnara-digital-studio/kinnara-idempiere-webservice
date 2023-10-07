@@ -2,6 +2,7 @@ package com.kinnarastudio.idempiere.model;
 
 import com.kinnarastudio.commons.Try;
 import com.kinnarastudio.commons.jsonstream.JSONStream;
+import com.kinnarastudio.idempiere.exception.WebServiceResponseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,12 +20,22 @@ public final class DataRow {
         this(new Field(fieldEntries));
     }
 
-    public DataRow(JSONObject json) {
-        final FieldEntry[] fieldEntries = JSONStream.of(json.getJSONArray(Field.JSON_KEY), JSONArray::getJSONObject)
-                .filter(Try.toNegate(this::isNilValue))
+    public DataRow(JSONObject json) throws WebServiceResponseException {
+        final JSONArray jsonField;
+
+        final Object objField = json.get(Field.JSON_KEY);
+        if(objField instanceof JSONArray) {
+            jsonField = (JSONArray) objField;
+        } else if(objField instanceof JSONObject) {
+            jsonField = new JSONArray();
+            jsonField.put(objField);
+        } else {
+            throw new WebServiceResponseException("Field is not in json format");
+        }
+        final FieldEntry[] fieldEntries = JSONStream.of(jsonField, JSONArray::getJSONObject)
                 .map(j -> {
                     final String column = j.getString("@column");
-                    final String value = String.valueOf(j.get("val"));
+                    final String value = isNilValue(j) ? "" : String.valueOf(j.get("val"));
                     return new FieldEntry(column, value);
                 })
                 .toArray(FieldEntry[]::new);

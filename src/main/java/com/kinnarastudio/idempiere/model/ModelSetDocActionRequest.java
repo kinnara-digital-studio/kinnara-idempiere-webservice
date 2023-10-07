@@ -3,6 +3,7 @@ package com.kinnarastudio.idempiere.model;
 import org.json.JSONObject;
 
 public class ModelSetDocActionRequest extends WebServiceRequest {
+    public final static String JSON_KEY = "ModelSetDocActionRequest";
 
     private final ModelSetDocAction modelSetDocAction;
 
@@ -19,6 +20,6 @@ public class ModelSetDocActionRequest extends WebServiceRequest {
 
     @Override
     public String getJsonKey() {
-        return null;
+        return JSON_KEY;
     }
 }

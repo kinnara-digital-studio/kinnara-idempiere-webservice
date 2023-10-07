@@ -1,33 +1,29 @@
 package com.kinnarastudio.idempiere.type;
 
+import com.kinnarastudio.idempiere.model.ModelCrud;
+
 public enum ServiceMethod {
-    CREATE_DATA("model_adservice", "create_data", "createData", "ModelCRUD", "ModelCRUDRequest"),
-    DELETE_DATA("model_adservice", "delete_data", "deleteData", "ModelCRUD", "ModelCRUDRequest"),
-    GET_LIST("model_adservice", "get_list", "", "ModelCRUD", "ModelGetListRequest"),
-    QUERY_DATA("model_adservice", "query_data", "", "ModelCRUD", "ModelCRUDRequest"),
-    READ_DATA("model_adservice", "read_data", "readData", "ModelCRUD", "ModelCRUDRequest"),
-    RUN_PROCESS("model_adservice", "run_process", "runProcess", "ModelCRUD", "ModelRunProcessRequest"),
-    SET_DOCUMENT_ACTION("model_adservice", "set_docaction", "setDocAction", "ModelCRUD", "ModelSetDocActionRequest"),
-    UPDATE_DATA("model_adservice", "update_data", "updateData", "ModelCRUD", "ModelCRUDRequest"),
-    CREATE_OR_UPDATE_DATA("model_adservice", "create_update_data", "createUpdateData", "ModelCRUD", "ModelCRUDRequest");
+    CREATE_DATA("model_adservice", "create_data", "createData", ModelCrud.JSON_KEY),
+    DELETE_DATA("model_adservice", "delete_data", "deleteData", ModelCrud.JSON_KEY),
+    GET_LIST("model_adservice", "get_list", "", ModelCrud.JSON_KEY),
+    QUERY_DATA("model_adservice", "query_data", "", ModelCrud.JSON_KEY),
+    READ_DATA("model_adservice", "read_data", "readData", ModelCrud.JSON_KEY),
+    RUN_PROCESS("model_adservice", "run_process", "runProcess", ModelCrud.JSON_KEY),
+    SET_DOCUMENT_ACTION("model_adservice", "set_docaction", "setDocAction", ModelCrud.JSON_KEY),
+    UPDATE_DATA("model_adservice", "update_data", "updateData", ModelCrud.JSON_KEY),
+    CREATE_OR_UPDATE_DATA("model_adservice", "create_update_data", "createUpdateData", ModelCrud.JSON_KEY);
 
     private final String port;
     private final String method;
     private final String targetPort;
 
     private final String keyModel;
-    private final String keyRequest;
 
-    ServiceMethod(String port, String method, String targetPort, String keyModel, String keyRequest) {
+    ServiceMethod(String port, String method, String targetPort, String keyModel) {
         this.port = port;
         this.method = method;
         this.targetPort = targetPort;
         this.keyModel = keyModel;
-        this.keyRequest = keyRequest;
-    }
-
-    public String getKeyRequest() {
-        return keyRequest;
     }
 
     public String getPort() {

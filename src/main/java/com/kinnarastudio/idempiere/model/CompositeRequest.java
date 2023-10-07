@@ -45,4 +45,5 @@ public class CompositeRequest extends WebServiceRequest {
     public String getJsonKey() {
         return JSON_KEY;
     }
+
 }
