@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class ModelOrientedWebService {
     private final String baseUrl;
     private final ServiceMethod method;
-    private final WebServiceRequest request;
+    private final ModelOrientedRequest request;
     private final boolean ignoreSslCertificateError;
 
     private ModelOrientedWebService(Builder builder) {
@@ -40,6 +40,10 @@ public class ModelOrientedWebService {
         this.method = builder.method;
         this.request = builder.request;
         this.ignoreSslCertificateError = builder.ignoreSslCertificateError;
+    }
+
+    public ModelOrientedRequest getRequest() {
+        return request;
     }
 
     public WebServiceResponse execute() throws WebServiceRequestException, WebServiceResponseException {
@@ -80,10 +84,6 @@ public class ModelOrientedWebService {
         }
     }
 
-    public JSONObject getRequestPayload() {
-        return request.toJson();
-    }
-
     protected int getResponseStatus(@Nonnull HttpResponse response) throws WebServiceResponseException {
         return Optional.of(response)
                 .map(HttpResponse::getStatusLine)
@@ -111,7 +111,7 @@ public class ModelOrientedWebService {
      *
      */
     public static class Builder {
-        private WebServiceRequest request;
+        private ModelOrientedRequest request;
 
         private String baseUrl;
 
@@ -124,10 +124,13 @@ public class ModelOrientedWebService {
 
         private Integer recordId;
 
+        private String recordIdVariable;
+
         private Integer offset;
 
         private Integer limit;
         private DataRow dataRow;
+        private String docAction;
 
         private boolean ignoreSslCertificateError = false;
 
@@ -166,6 +169,11 @@ public class ModelOrientedWebService {
             return this;
         }
 
+        public Builder setRecordIdVariable(String recordIdVariable) {
+            this.recordIdVariable = recordIdVariable;
+            return this;
+        }
+
         public Builder setOffset(Integer offset) {
             this.offset = offset;
             return this;
@@ -178,6 +186,11 @@ public class ModelOrientedWebService {
 
         public Builder setDataRow(DataRow dataRow) {
             this.dataRow = dataRow;
+            return this;
+        }
+
+        public Builder setDocAction(String docAction) {
+            this.docAction = docAction;
             return this;
         }
 
@@ -203,37 +216,12 @@ public class ModelOrientedWebService {
                 case DELETE_DATA:
                 case UPDATE_DATA:
                 case CREATE_OR_UPDATE_DATA:
-                    final ModelCrud modelCrud = new ModelCrud(serviceType);
-
-                    Optional.ofNullable(dataRow)
-                            .filter(dr -> Optional.of(dr)
-                                    .map(DataRow::getFieldEntries)
-                                    .map(fe -> fe.length)
-                                    .filter(i -> i > 0)
-                                    .isPresent())
-                            .ifPresent(modelCrud::setDataRow);
-
-                    Optional.ofNullable(table)
-                            .filter(s -> !s.isEmpty())
-                            .ifPresent(modelCrud::setTableName);
-
-                    Optional.ofNullable(recordId)
-                            .filter(i -> i > 0)
-                            .ifPresent(modelCrud::setRecordId);
-
-                    Optional.ofNullable(offset)
-                            .filter(i -> i > 0)
-                            .ifPresent(modelCrud::setOffset);
-
-                    Optional.ofNullable(limit)
-                            .filter(i -> i > 0)
-                            .ifPresent(modelCrud::setLimit);
-
+                    final ModelCrud modelCrud = new ModelCrud(serviceType, table, recordId, recordIdVariable, offset, limit, dataRow);
                     request = new ModelCrudRequest(loginRequest, modelCrud);
                     break;
 
                 case SET_DOCUMENT_ACTION:
-                    request = new ModelSetDocActionRequest(loginRequest, new ModelSetDocAction(serviceType, recordId));
+                    request = new ModelSetDocActionRequest(loginRequest, new ModelSetDocAction(serviceType, table, recordId, recordIdVariable, docAction));
                     break;
 
                 case RUN_PROCESS:

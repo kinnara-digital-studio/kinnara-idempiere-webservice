@@ -64,7 +64,7 @@ public class UnitTest {
                 new FieldEntry("C_DocTypeTarget_ID", 132)
         });
 
-        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new Model("CreateOrderRecord", "C_Order", orderDataRow)));
+        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new ModelCrud("CreateOrderRecord", "C_Order", null, null, null, null, orderDataRow)));
 
         DataRow orderLineDataRow = new DataRow(new FieldEntry[]{
                 new FieldEntry("C_Order_ID", "@C_Order.C_Order_ID"),
@@ -73,7 +73,7 @@ public class UnitTest {
                 new FieldEntry("PriceEntered", 10000)
         });
 
-        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new Model("CreateOrderLine", "C_OrderLine", orderLineDataRow)));
+        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new ModelCrud("CreateOrderLine", "C_OrderLine", null, null, null, null, orderLineDataRow)));
 
         DataRow shipmentDataRow = new DataRow(new FieldEntry[]{
                 new FieldEntry("C_DocType_ID", 120),
@@ -83,7 +83,7 @@ public class UnitTest {
                 new FieldEntry("AD_User_ID", 101),
                 new FieldEntry("Description", "Composite")
         });
-        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new Model("CreateShipment", "M_InOut", shipmentDataRow)));
+        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new ModelCrud("CreateShipment", "M_InOut", null, null, null, null, shipmentDataRow)));
 
         DataRow shipmentLineDataRow = new DataRow(new FieldEntry[]{
                 new FieldEntry("M_InOut_ID", "@M_InOut.M_InOut_ID"),
@@ -91,7 +91,7 @@ public class UnitTest {
                 new FieldEntry("QtyEntered", 97),
                 new FieldEntry("C_UOM_ID", 100)
         });
-        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new Model("CreateShipmentLine", "M_InOutLine", shipmentLineDataRow)));
+        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new ModelCrud("CreateShipmentLine", "M_InOutLine", null, null, null, null, shipmentLineDataRow)));
         try {
             CompositeInterfaceWebService webService = builder.build();
             CompositeResponses response = (CompositeResponses) webService.execute();
@@ -120,7 +120,7 @@ public class UnitTest {
                 new FieldEntry("AD_User_ID", 101),
                 new FieldEntry("Description", "Composite")
         });
-        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new Model("CreateShipment", "M_InOut", shipmentDataRow)));
+        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new ModelCrud("CreateShipment", "M_InOut", null, null, null, null, shipmentDataRow)));
 
         DataRow shipmentLineDataRow = new DataRow(new FieldEntry[]{
                 new FieldEntry("M_InOut_ID", "@M_InOut.M_InOut_ID"),
@@ -128,7 +128,7 @@ public class UnitTest {
                 new FieldEntry("QtyEntered", 97),
                 new FieldEntry("C_UOM_ID", 100)
         });
-        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new Model("CreateShipmentLine", "M_InOutLine", shipmentLineDataRow)));
+        builder.addOperation(new Operation(ServiceMethod.CREATE_DATA, new ModelCrud("CreateShipmentLine", "M_InOutLine", null, null, null, null, shipmentLineDataRow)));
 
         try {
             CompositeInterfaceWebService webService = builder.build();

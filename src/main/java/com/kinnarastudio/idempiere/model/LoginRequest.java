@@ -29,6 +29,10 @@ public final class LoginRequest {
         this.warehouseId = warehouseId;
     }
 
+    public String getJsonKey() {
+        return JSON_KEY;
+    }
+
     public JSONObject toJson() {
         final JSONObject jsonLoginRequest = new JSONObject();
         jsonLoginRequest.put("user", username);

@@ -2,21 +2,28 @@ package com.kinnarastudio.idempiere.model;
 
 import org.json.JSONObject;
 
-public class ModelSetDocAction {
+import javax.annotation.Nonnull;
+
+public class ModelSetDocAction extends Model {
     public final static String JSON_KEY = "ModelSetDocAction";
 
-    private final String serviceType;
-    private final Integer recordId;
+    private final String docAction;
 
-    public ModelSetDocAction(String serviceType, Integer recordId) {
-        this.serviceType = serviceType;
-        this.recordId = recordId;
+    public ModelSetDocAction(@Nonnull String serviceType, String tableName, Integer recordId, String recordIdVariable, @Nonnull String docAction) {
+        super(serviceType, tableName, recordId, recordIdVariable);
+        this.docAction = docAction;
     }
 
     public JSONObject toJson() {
         final JSONObject json = new JSONObject();
-        json.put("serviceType", serviceType);
-        json.put("recordID", recordId);
+        json.put("serviceType", getServiceType());
+        json.put("recordID", getRecordId());
+        json.put("docAction", docAction);
         return json;
+    }
+
+    @Override
+    protected String getJsonKey() {
+        return JSON_KEY;
     }
 }

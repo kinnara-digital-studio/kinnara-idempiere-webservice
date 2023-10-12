@@ -4,18 +4,22 @@ import org.json.JSONObject;
 
 import javax.annotation.Nonnull;
 
-public class ModelCrudRequest extends WebServiceRequest {
+public class ModelCrudRequest extends ModelOrientedRequest {
     public final static String JSON_KEY = "ModelCRUDRequest";
-    private final ModelCrud modelCrud;
 
     public ModelCrudRequest(@Nonnull LoginRequest loginRequest, @Nonnull ModelCrud modelCrud) {
-        super(loginRequest);
-        this.modelCrud = modelCrud;
+        super(loginRequest, modelCrud);
     }
 
     public JSONObject toJson() {
-        final JSONObject json = super.toJson();
-        json.put(ModelCrud.JSON_KEY, modelCrud.toJson());
+        final JSONObject json = new JSONObject();
+
+        final LoginRequest loginRequest = getLoginRequest();
+        json.put(loginRequest.getJsonKey(), loginRequest.toJson());
+
+        final Model model = getModelRequest();
+        json.put(model.getJsonKey(), model.toJson());
+
         return json;
     }
 

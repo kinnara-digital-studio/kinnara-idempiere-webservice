@@ -37,12 +37,16 @@ public class CompositeInterfaceWebService {
     private final String baseUrl;
 
     private final boolean ignoreSslCertificateError;
-    private final CompositeRequest compositeRequest;
+    private final CompositeRequest request;
 
     private CompositeInterfaceWebService(Builder builder) {
         this.baseUrl = builder.baseUrl;
         this.ignoreSslCertificateError = builder.ignoreSslCertificateError;
-        this.compositeRequest = builder.compositeRequest;
+        this.request = builder.compositeRequest;
+    }
+
+    public CompositeRequest getRequest() {
+        return request;
     }
 
     public WebServiceResponse execute() throws WebServiceRequestException, WebServiceResponseException {
@@ -108,7 +112,7 @@ public class CompositeInterfaceWebService {
 
     public JSONObject getRequestPayload() {
         final JSONObject json = new JSONObject();
-        json.put(CompositeRequest.JSON_KEY, compositeRequest.toJson());
+        json.put(CompositeRequest.JSON_KEY, request.toJson());
         return json;
     }
 

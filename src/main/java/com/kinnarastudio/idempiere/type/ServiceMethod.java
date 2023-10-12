@@ -1,6 +1,7 @@
 package com.kinnarastudio.idempiere.type;
 
 import com.kinnarastudio.idempiere.model.ModelCrud;
+import com.kinnarastudio.idempiere.model.ModelSetDocAction;
 
 public enum ServiceMethod {
     CREATE_DATA("model_adservice", "create_data", "createData", ModelCrud.JSON_KEY),
@@ -9,7 +10,7 @@ public enum ServiceMethod {
     QUERY_DATA("model_adservice", "query_data", "", ModelCrud.JSON_KEY),
     READ_DATA("model_adservice", "read_data", "readData", ModelCrud.JSON_KEY),
     RUN_PROCESS("model_adservice", "run_process", "runProcess", ModelCrud.JSON_KEY),
-    SET_DOCUMENT_ACTION("model_adservice", "set_docaction", "setDocAction", ModelCrud.JSON_KEY),
+    SET_DOCUMENT_ACTION("model_adservice", "set_docaction", "setDocAction", ModelSetDocAction.JSON_KEY),
     UPDATE_DATA("model_adservice", "update_data", "updateData", ModelCrud.JSON_KEY),
     CREATE_OR_UPDATE_DATA("model_adservice", "create_update_data", "createUpdateData", ModelCrud.JSON_KEY);
 

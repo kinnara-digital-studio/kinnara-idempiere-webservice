@@ -2,25 +2,41 @@ package com.kinnarastudio.idempiere.model;
 
 import org.json.JSONObject;
 
-public class Model {
+import javax.annotation.Nonnull;
 
+public abstract class Model {
     private final String serviceType;
 
     private final String tableName;
 
-    private final DataRow dataRow;
+    private Integer recordId;
 
-    public Model(String serviceType, String tableName, DataRow dataRow) {
+    private String recordIdVariable;
+
+    public Model(@Nonnull String serviceType, String tableName, Integer recordId, String recordIdVariable) {
         this.serviceType = serviceType;
         this.tableName = tableName;
-        this.dataRow = dataRow;
+        this.recordId = recordId;
+        this.recordIdVariable = recordIdVariable;
     }
 
-    public JSONObject toJson() {
-        final JSONObject json = new JSONObject();
-        json.put("serviceType", serviceType);
-        json.put("TableName", tableName);
-        json.put(DataRow.JSON_KEY, dataRow.toJson());
-        return json;
+    public abstract JSONObject toJson();
+
+    protected abstract String getJsonKey();
+
+    protected String getServiceType() {
+        return serviceType;
+    }
+
+    protected String getTableName() {
+        return tableName;
+    }
+
+    protected Integer getRecordId() {
+        return recordId;
+    }
+
+    protected String getRecordIdVariable() {
+        return recordIdVariable;
     }
 }

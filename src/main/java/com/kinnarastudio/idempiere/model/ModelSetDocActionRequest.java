@@ -2,19 +2,22 @@ package com.kinnarastudio.idempiere.model;
 
 import org.json.JSONObject;
 
-public class ModelSetDocActionRequest extends WebServiceRequest {
+import javax.annotation.Nonnull;
+
+public class ModelSetDocActionRequest extends ModelOrientedRequest {
     public final static String JSON_KEY = "ModelSetDocActionRequest";
 
-    private final ModelSetDocAction modelSetDocAction;
-
-    public ModelSetDocActionRequest(LoginRequest loginRequest, ModelSetDocAction modelSetDocAction) {
-        super(loginRequest);
-        this.modelSetDocAction = modelSetDocAction;
+    public ModelSetDocActionRequest(@Nonnull LoginRequest loginRequest, @Nonnull ModelSetDocAction modelSetDocAction) {
+        super(loginRequest, modelSetDocAction);
     }
 
     public JSONObject toJson() {
-        final JSONObject json = super.toJson();
-        json.put(ModelSetDocAction.JSON_KEY, modelSetDocAction.toJson());
+        final JSONObject json = new JSONObject();
+        json.put(LoginRequest.JSON_KEY, getLoginRequest().toJson());
+
+        final Model modelRequest = getModelRequest();
+        json.put(modelRequest.getJsonKey(), modelRequest.toJson());
+
         return json;
     }
 
