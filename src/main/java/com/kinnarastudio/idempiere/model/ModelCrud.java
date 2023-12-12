@@ -1,14 +1,15 @@
 package com.kinnarastudio.idempiere.model;
 
+import com.kinnarastudio.commons.Try;
 import org.json.JSONObject;
 
+import java.util.Map;
 import java.util.Optional;
 
 public final class ModelCrud extends Model {
     public final static String JSON_KEY = "ModelCRUD";
-
+    public final static String PARAMETER_RECORD_ID = "RecordID";
     private final Integer offset;
-
     private final Integer limit;
     private final DataRow dataRow;
 
@@ -24,7 +25,7 @@ public final class ModelCrud extends Model {
         json.put("serviceType", getServiceType());
 
         Optional.ofNullable(getTableName()).ifPresent(s -> json.put("TableName", s));
-        Optional.ofNullable(getRecordId()).filter(i -> i > 0).ifPresent(s -> json.put("RecordID", s));
+        Optional.ofNullable(getRecordId()).filter(i -> i > 0).ifPresent(s -> json.put(PARAMETER_RECORD_ID, s));
         Optional.ofNullable(getRecordIdVariable()).ifPresent(s -> json.put("recordIDVariable", s));
         Optional.ofNullable(offset).ifPresent(i -> json.put("Offset", i));
         Optional.ofNullable(limit).ifPresent(i -> json.put("Limit", i));

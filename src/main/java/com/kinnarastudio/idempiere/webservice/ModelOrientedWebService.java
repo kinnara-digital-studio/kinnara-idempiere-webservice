@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -132,6 +133,8 @@ public class ModelOrientedWebService {
         private DataRow dataRow;
         private String docAction;
 
+        private Map<String, String> webServiceParameters;
+
         private boolean ignoreSslCertificateError = false;
 
         public Builder setBaseUrl(String baseUrl) {
@@ -194,6 +197,11 @@ public class ModelOrientedWebService {
             return this;
         }
 
+        public Builder setWebServiceParameters(Map<String, String> webServiceParameters) {
+            this.webServiceParameters = webServiceParameters;
+            return this;
+        }
+
         public Builder ignoreSslCertificateError() {
             this.ignoreSslCertificateError = true;
             return this;
@@ -221,7 +229,8 @@ public class ModelOrientedWebService {
                     break;
 
                 case SET_DOCUMENT_ACTION:
-                    request = new ModelSetDocActionRequest(loginRequest, new ModelSetDocAction(serviceType, table, recordId, recordIdVariable, docAction));
+                    final ModelSetDocAction modelSetDocAction = new ModelSetDocAction(serviceType, table, recordId, recordIdVariable, docAction);
+                    request = new ModelSetDocActionRequest(loginRequest, modelSetDocAction);
                     break;
 
                 case RUN_PROCESS:

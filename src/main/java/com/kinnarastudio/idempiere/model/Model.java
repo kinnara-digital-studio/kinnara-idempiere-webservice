@@ -9,9 +9,9 @@ public abstract class Model {
 
     private final String tableName;
 
-    private Integer recordId;
+    private final Integer recordId;
 
-    private String recordIdVariable;
+    private final String recordIdVariable;
 
     public Model(@Nonnull String serviceType, String tableName, Integer recordId, String recordIdVariable) {
         this.serviceType = serviceType;
