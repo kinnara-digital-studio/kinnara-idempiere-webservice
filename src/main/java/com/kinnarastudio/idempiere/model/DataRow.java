@@ -7,6 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public final class DataRow {
     public final static String JSON_KEY = "DataRow";
 
@@ -64,6 +69,11 @@ public final class DataRow {
 
     public FieldEntry[] getFieldEntries() {
         return field.getFieldEntries();
+    }
+
+    @Nullable
+    public FieldEntry getFieldEntry(String column) {
+        return getField().getFieldEntry(column);
     }
 
     public JSONObject toJson() {

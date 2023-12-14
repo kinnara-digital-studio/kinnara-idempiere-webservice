@@ -6,8 +6,8 @@ import com.kinnarastudio.idempiere.model.ModelSetDocAction;
 public enum ServiceMethod {
     CREATE_DATA("model_adservice", "create_data", "createData", ModelCrud.JSON_KEY),
     DELETE_DATA("model_adservice", "delete_data", "deleteData", ModelCrud.JSON_KEY),
-    GET_LIST("model_adservice", "get_list", "", ModelCrud.JSON_KEY),
-    QUERY_DATA("model_adservice", "query_data", "", ModelCrud.JSON_KEY),
+    GET_LIST("model_adservice", "get_list", null, ModelCrud.JSON_KEY),
+    QUERY_DATA("model_adservice", "query_data", null, ModelCrud.JSON_KEY),
     READ_DATA("model_adservice", "read_data", "readData", ModelCrud.JSON_KEY),
     RUN_PROCESS("model_adservice", "run_process", "runProcess", ModelCrud.JSON_KEY),
     SET_DOCUMENT_ACTION("model_adservice", "set_docaction", "setDocAction", ModelSetDocAction.JSON_KEY),

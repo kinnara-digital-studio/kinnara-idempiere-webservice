@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import javax.annotation.Nonnull;
 
-public class ModelSetDocActionRequest extends ModelOrientedRequest {
+public class ModelSetDocActionRequest extends ModelOrientedRequest<ModelSetDocAction> {
     public final static String JSON_KEY = "ModelSetDocActionRequest";
 
     public ModelSetDocActionRequest(@Nonnull LoginRequest loginRequest, @Nonnull ModelSetDocAction modelSetDocAction) {

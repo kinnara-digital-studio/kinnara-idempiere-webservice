@@ -219,7 +219,6 @@ public class ModelOrientedWebService {
             switch (method) {
                 case READ_DATA:
                 case QUERY_DATA:
-                case GET_LIST:
                 case CREATE_DATA:
                 case DELETE_DATA:
                 case UPDATE_DATA:
@@ -231,6 +230,11 @@ public class ModelOrientedWebService {
                 case SET_DOCUMENT_ACTION:
                     final ModelSetDocAction modelSetDocAction = new ModelSetDocAction(serviceType, table, recordId, recordIdVariable, docAction);
                     request = new ModelSetDocActionRequest(loginRequest, modelSetDocAction);
+                    break;
+
+                case GET_LIST:
+                    final ModelGetList modelGetList = new ModelGetList(serviceType, table);
+                    request = new ModelGetListRequest(loginRequest, modelGetList);
                     break;
 
                 case RUN_PROCESS:

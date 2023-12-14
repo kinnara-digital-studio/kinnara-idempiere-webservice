@@ -4,12 +4,12 @@ import org.json.JSONObject;
 
 import javax.annotation.Nonnull;
 
-public abstract class ModelOrientedRequest {
+public abstract class ModelOrientedRequest<M extends Model> {
     private final LoginRequest loginRequest;
 
-    private final Model modelRequest;
+    private final M modelRequest;
 
-    protected ModelOrientedRequest(@Nonnull LoginRequest loginRequest, @Nonnull Model modelRequest) {
+    protected ModelOrientedRequest(@Nonnull LoginRequest loginRequest, @Nonnull M modelRequest) {
         this.loginRequest = loginRequest;
         this.modelRequest = modelRequest;
     }
